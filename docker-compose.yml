@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+    staticwebserver:
+        image: caddy:latest
+        ports:
+            - "9000:80"
+        volumes:
+            - staticfiles:/usr/share/caddy/
+        restart: always
+
+    staticuploader:
+        image: condim/staticuploader:latest
+        ports:
+            - "8000:8000"
+        volumes:
+            - staticfiles:/app/web/
+        restart: always
+
+volumes:
+    staticfiles:
+        driver: local
+        driver_opts:
+            type: none
+            device: /srv/web/
+            o: bind
